@@ -1,0 +1,43 @@
+
+        protobuf 安装 下载地址：https://github.com/protocolbuffers/protobuf/releases  
+	
+	window：下载window版本
+		https://github.com/google/protobuf/releases/download/v3.5.0/protoc-3.5.0-win64.zip
+		解压后放d:\protoc，将d:\protoc\bin加入PATH
+		
+	linux：
+		解压 
+			tar -zxvf protobuf-3.5.0.tar.gz 
+		安装
+			./configure
+			make && make install
+		查看
+			protoc --version
+		有版本信息即为成功
+
+	
+       php-protobuf扩展引入（下扩展库引入）
+
+		下载： https://github.com/drslump/Protobuf-PHP
+		下载内容可放在自己的项目组件中进行引入
+		在目录中建立proto文件 根据自身项目定义
+			如test.proto文件
+				文件内容：
+				syntax = "proto3";
+				message Person {
+				string name = 1;
+				int32 id = 2;
+				string email = 3;
+				repeated PhoneNumber phone = 4;
+				double money = 5;
+				}
+		在目录中打开命令窗口运行：
+			protoc --plugin=protoc-gen-php=.\protoc-gen-php.php  --proto_path=./  --php_out=./out  ./test2.proto
+		生成的文件放在当前目录下的out文件（可自行定义）
+		./test.proto(根据当前目录下的文件生成编译文件)
+		运行后再out目录下生成对应的GPBMetadata文件和Person.php文件
+	
+		下载php-protobuf扩展库引入
+		https://github.com/protocolbuffers/protobuf/releases/tag/v3.5.0（protobuf-php）
+		下载后引入PHP文件夹下的内容即可
+	

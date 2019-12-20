@@ -1,0 +1,49 @@
+
+在项目应用使用过程中，或提示下面错误：
+Uncaught Error: Call to undefined function mb_strlen();
+
+出现如上错误，是因为我们没有安装PHP的mbstring扩展所致。
+
+安装mbstring扩展linux系统篇
+1.CenOS系统
+
+
+	php安装包目录：/data/php5.6.14/
+
+	PHP安装路径：/usr/local/php/
+
+	(下面步骤中的具体路径设置，大家根据自己的实际情况设置即可。)
+	在PHP安装包中找到mbstring扩展目录
+	cd /data/php5.6.14/ext/mbstring/
+
+	运行phpize 
+	/usr/local/php/bin/phpize
+
+	编译安装:
+	./configure --with-php-config=/usr/local/php/bin/php-config
+make && make install
+
+
+	这时候mbstring.so就已经在/usr/local/php/lib/php/extensions/no-debug-non-zts-20131226/目录下生成了
+
+
+	设置PHP配置文件php.ini,
+	添加下面一行extension=mbstring.so
+
+
+
+	最后重启服务，
+	使用phpinfo()查看mbstring扩展是否安装成功
+
+
+	
+2.ubuntu系统
+
+	sudo apt-get install php5.6-mbstring
+
+	在配置文件中添加一行：
+extension=php5.6-mbstring.so
+
+
+	最后重启服务即可。
+

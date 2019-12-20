@@ -1,0 +1,28 @@
+	php7 安装mysqli扩展的坑及解决办法
+
+	1、找到php7.2 ext目录下的mysqli
+
+
+	2、输入 /usr/local/php7.2/bin/phpize
+	
+
+3、在mysqli文件夹下执行?
+		./configure --with-php-config=/usr/local/php7/bin/php-config --with-mysqli=/usr/local/mysql/bin/mysql_config 
+	
+
+4、make
+	5、make install
+
+	在安装mysqli的时候，出现error: ext/mysqlnd/mysql_float_to_double.h: No such file or directory
+
+	1、vim /usr/local/php-7.1.6/ext/mysqli/mysqli_api.c（这里找到你的安装目录）
+	
+
+2、修改文件第36行的路径
+
+? ? /ext/mysqlnd/mysql_float_to_double.h
+
+ 
+	修改为
+
+ /usr/local/php-7.1.6/ext/mysqlnd/mysql_float_to_double.h

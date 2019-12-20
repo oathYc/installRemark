@@ -1,0 +1,61 @@
+
+      	传奇内网服务器（php）
+
+	系统 	centos7
+	ip 192.168.0.13		账号 root			密码 123qwe!@#
+
+	数据库密码  
+		host 	localhost		192.168.0.13
+		user	root		root
+		pwd	root		cq123
+
+	内网服务器（游戏）
+	ip 192.168.0.15		账号 game		密码 abcdefg
+
+     
+     	外网服务器-php
+	ip 139.9.243.254		用户 Phrecord		密码 a7MnMkdxZbImBhuQ
+	域名 http://www.6p39k.cn
+				
+	外网服务器-php vip
+	ip 139.9.239.238		用户 Phrecord		密码 a7MnMkdxZbImBhuQ
+	服务器数据库 账号密码 root  root123
+
+	外网数据库
+		ip  139.9.149.194 		端口 3306
+		账号 backtool		密码 mVPa926vJFOuYJ4C
+		账号 game		密码 szkR6GzpJtgpKRSV
+
+
+	app
+		域名 mall.gchating.com 
+		服务器
+		192.74.234.106 	账号 root   	密码 <,8`l{R=9_+cI]  		连接端口 28993	监听端口 8764   
+		数据库
+		192.74.234.106 	账号 root		密码 ieskdif!@#5423 		端口 3360		
+	
+	http://192.168.0.35:8888     密码 12345678  	账号 oathYc	 username oath
+
+	接口地址
+	http://192.168.0.35:9999/  账号 1316796206@qq.com  密码 123456
+
+
+	微信H5支付
+		芜湖洋章商贸有限公司
+		AppSecret：ffd382f975fa80975cb07eca0c8d76a6
+		AppID：wx974d27df184841e0
+		商户号密匙：0d1c902e15770df01f53020caca3912f
+		商户号：1552342401、1557051341、1557051691
+		网站：www.6p39k.cn
+		https://www.6p39k.cn/pay/wx/order.php   必须用这个url唤起支付
+
+
+
+	39.105.197.57  账号administrator  密码    1858212.wyq
+	118.190.154.35  账号administrator  密码  1858212.wyq
+	cw.hzlyzhenzhi.com/admin
+	账号是admin  密码mb159632
+
+	宝塔 http://45.125.44.112:8884   
+
+username: anjch7wg   cW3NTFXFXh2J

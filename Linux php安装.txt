@@ -1,0 +1,73 @@
+ php 安装
+	
+	下载PHP：
+
+	官网地址：http://cn2.php.net/
+
+	下载页面：http://cn2.php.net/get/php-7.1.6.tar.gz/from/a/mirror
+
+      1.将文件移到服务器  解压
+	tar -zxf 解压文件
+	
+       2.配置：注意with-apxs2 httpd路径和 with-pdo-mysql 路径。
+
+	./configure --prefix=/usr/local/php --with-apxs2=/usr/local/httpd/bin/apxs --with-config-file-path=/usr/local/php/lib --with-pdo-mysql=/usr/local/mysql --with-mysql=/usr/local/mysql  --with-zlib-dir=/usr/lib
+	
+        3.可能会遇到错误：configure error xml2-config not found. please check your libxml2 installation
+	
+	检查是否安装了libxm包 
+	rpm -qa |grep  libxml2
+		libxml2-2.6.26-2.1.12
+		libxml2-python-2.6.26-2.1.12
+	重新安装libxml2和libxml2-devel包, yum安装的时候发现新版本会提示更新，需要更新的可以更新，不要跳过就行了。
+
+	yum install libxml2
+	yum install libxml2-devel -y
+	安装完之后查找xml2-config文件是否存在
+	
+	 find / -name "xml2-co
+		/usr/bin/xml2-config
+ 
+	然后重新执行./configure --prefix=/usr/local/php --with-apxs2=/usr/local/httpd/bin/apxs 
+	--with-config-file-path=/usr/local/lib --with-pdo-mysql=/usr/local/mysql --with-zlib-dir=/usr/lib
+
+        4.成功：
+	在make之前还要做一个mysql的header文件的软连接。因为mysql安装的时候指定了目录，不做软连接的话，还是找不到header文件。
+
+　　	 ln -s /usr/local/mysql/include/* /usr/local/include/
+
+        5.执行make编译
+	 make install 
+
+         6. 安装包中的php.ini-production拷贝到/usr/local/php/lib/下即可
+	cp php.ini-production /usr/local/php/lib/php.ini
+
+         7.在httpd.conf配置文件中查找 LoadModule php7_module modules/libphp7.so
+
+	如果没有搜索到（一般都是可以搜索到的），就将这段指令添加到httpd.conf配置文件中，
+	使apache可以加载libphp7.so模块，并进行php文件的解析。
+	
+         8.在httpd.conf配置文件中再添加一段指令：（可操作可跳过）
+	<FilesMatch "\.ph(p[2-6]?|tml)$"> SetHandler application/x-httpd-php</FilesMatch>
+	
+	这段指令告诉apache，碰到文件名以.php, .php2, .php3, .php4, .php5, .php6或phtml结尾的文件使用libphp7.so模块进行解析。
+	其中"\.ph(p[2-6]?|tml)$"为正则表达式，你可以随意更改，只要符合PCRE正则表达式语法，都可以。
+
+         9.在Vim中搜索”DirectoryIndex“字符串，大家可以看到已经有index.html了，
+	在index.html后面添加 index.php index.phtml
+
+
+	操作完成之后  运行 php -v 命令查看php是否安装好及安装版本
+
+ 
+          php -v  报错   -bash: php command not found。
+
+	执行find命令查找php相关的文件路径：
+	发现php的安装路径，排查了安装问题，就考虑到了路径的问题，
+	可以设置环境变量或者创建软链接以简化变量链接。
+
+	1先显示当前PATH环境变量   echo $PATH
+	2.设置环境变量，执行export PATH=$PATH:/usr/local/php/bin 
+	#添加/usr/local/php/bin到PATH环境变量，然后查看版本，看是否成功
+
+        

@@ -1,0 +1,142 @@
+ Apache安装
+
+	yum  install httpd httpd-devel
+
+	service httpd start/stop/restart/status
+
+	systemctl start httpd.service #启动
+	systemctl stop httpd.service #停止
+	systemctl restart httpd.service #重启
+
+	systemctl enable httpd.service #开机启动
+	systemctl disable httpd.service #开机不启动
+
+	#检查httpd状态
+	systemctl status httpd.service
+	service httpd status
+
+
+
+	关闭防火墙
+	关闭：systemctl stop firewalld.service
+	查看状态：systemctl status firewalld.service
+	关闭开机自启动：systemctl disable firewalld.service
+
+	开启开机启动：systemctl enable firewalld.service
+
+
+	服务器访问需配置 安全组规则
+
+	协议类型 ：HTTP(80)
+	授权对象 ：0.0.0.0/0
+
+	浏览器输入公网ip即可查看Apache是否安装成功
+	
+下载安装包安装
+	Linux一般会自带httpd服务，但是版本一般不是最新，性能也不是最好，生产中建议手动安装官方源码包
+	安装Apache官方包之前首先要停止之前的httpd服务，停止后也可以卸载之前的版本
+	
+	去官网下载Apache的源码包，http://httpd.apache.org/ 这里下载的是最新的httpd-2.4.18.tar.bz2这个包
+	 释放  	
+		tar -jxvf httpd-2.4.18.tar.bz2
+	进入目录 	
+		cd httpd-2.4.18
+	执行写入配置
+		./configure --prefix=/usr/apache24
+
+	可能提示没有APR这个组件，apr的作用就是维护相应的软件安装库，已解决相应的平台缺陷等
+	之前Apache老版本不会出现这个问题，所以首先安装apr，网址是：http://apr.apache.org/
+	这里包括apr、apr-util、apr-iconv这三个包
+		
+	安装 apr
+		tar -zxvf apr-1.5.2.tar.gz
+		cd apr-1.5.2
+		./configure --prefix=/usr/local/apr
+		make
+		make install
+	安装apr-util   --prefix 指定安装目录    --with-apr表示apr-util安装需要依赖apr
+		tar -zxvf apr-util-1.5.4.tar.gz 
+		 cd apr-util-1.5.4
+ 		./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr
+ 		make
+		 make install
+	安装 apr-iconv
+		tar -zxvf apr-iconv-1.5.4.tar.gz 
+		 cd apr-iconv-1.5.4
+ 		./configure --prefix=/usr/local/apr-iconv  --with-apr=/usr/local/apr --with-apr-util=/usr/local/apr-util
+ 		make
+		 make install
+
+	若是报 error：pcre-config   可以看出，少了程序pcre，需要去http://pcre.org/ 获取
+		
+	安装PCRE
+		unzip pcre-8.38.zip 
+		 cd pcre-8.38
+		 ./configure --prefix=/usr/local/pcre
+		 make
+		make install
+
+	开始安装apache，进入源码包目录，执行命令
+
+		./configure --prefix=/usr/apache --with-apr=/usr/local/apr --with-apr-util=/usr/local/apr-util --with-pcre=/usr/local/pcre
+		make
+		make install
+	
+	如果make中出现错误，必须执行make clean清除所有缓存文件后继续，
+	如果是在make install过程中出现错误，必须执行make clean并且删除生成了安装目录，然后重新执行make和make install
+
+	启动 
+		/usr/apache24/bin/apachectl start
+	停止
+		bin/apachectl stop
+
+	服务器的默认根目录在/usr/apache24/htdocs/
+	
+	需要注意，第一次如果启动出现错误，要关闭系统自带的httpd服务
+	然后用vim打开conf/httpd.conf文件找到#ServerName www.example.com:80
+	把这行代码前面的#去掉，保存退出，然后重新启动Apache就可以正常运行了
+
+ 	若不是识别php代码（不显示或者显示php源代码）
+	
+	在<IfModule mime_module>里面
+
+		AddType application/x-httpd-php .php
+		AddType application/x-httpd-php .php  .html
+		AddType application/x-httpd-php-source .phps
+
+	就添加这些内容，然后重启apache ,执行 apachectl -k graceful
+
+	service httpd start|stop|restart  报httpd.service 未找到
+
+	需要将Apache注册到Linux服务里面啊！
+	注册Apache到Linux服务
+	在Linux下用源代码方式编译安装完Apache后，启动关闭Apache可以通过如下命令实现：　
+
+	/usr/local/apache/bin/apachectl  start | stop | restart
+
+	如果想将httpd列入系统自动启动的服务，可以直接将上述的apachectl文件拷贝到 /etc/rc.d/init.d 中，然后在相应的启动级别如3，5中加入链接即可。命令如下：
+
+	cp /usr/local/apache2/bin/apachectl  /etc/rc.d/init.d/httpd     # 复制到init.d 并重命名为httpd
+
+	ln -s /etc/rc.d/init.d/httpd  /etc/rc.d/rc3.d/S61httpd
+
+	链接文件的S61是启动时的序号。
+	当init.d目录下有httpd脚本后，我们就可以通过service命令来启动关闭apache了。
+
+	在任意路径下执行：
+
+	service httpd start | stop | restart
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,31 @@
+ Apache安装
+
+	yum  install httpd httpd-devel
+
+	service httpd start/stop/restart/status
+
+	systemctl start httpd.service #启动
+	systemctl stop httpd.service #停止
+	systemctl restart httpd.service #重启
+
+	systemctl enable httpd.service #开机启动
+	systemctl disable httpd.service #开机不启动
+
+	#检查httpd状态
+	systemctl status httpd.service
+	service httpd status
+
+
+
+	关闭防火墙
+	关闭：systemctl stop firewalld.service
+	查看状态：systemctl status firewalld.service
+
+
+	服务器访问需配置 安全组规则
+
+	协议类型 ：HTTP(80)
+	授权对象 ：0.0.0.0/0
+
+	浏览器输入公网ip即可查看Apache是否安装成功
+	 
